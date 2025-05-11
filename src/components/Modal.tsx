@@ -36,7 +36,7 @@ const Modal = ({
             <p className="text-sm font-bold text-red-700">Error!</p>
           </div>
         )}
-        <p className="text-xs font-normal">{message}</p>
+        <p className="text-xs font-normal text-center">{message}</p>
       </div>
     </div>
   );
