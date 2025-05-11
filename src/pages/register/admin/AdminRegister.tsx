@@ -334,8 +334,7 @@ const AdminRegister = () => {
                   <option value="" disabled>
                     Select an option
                   </option>
-                  <option value="systemadmin">Admin</option>
-                  <option value="staff">Staff</option>
+                  <option value="admin">Admin</option>
                 </select>
               </div>
             </div>
