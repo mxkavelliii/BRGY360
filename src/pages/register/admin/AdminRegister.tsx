@@ -18,6 +18,7 @@ const AdminRegister = () => {
   const [idType, setIdType] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="w-full flex min-h-screen items-center justify-center bg-[#008A3D] py-6 overflow-auto">
@@ -26,7 +27,7 @@ const AdminRegister = () => {
         <div className="w-full flex flex-row items-center justify-start gap-2">
           <img src={Logo} width={40} alt="/" />
           <p className="text-sm font-bold text-[#008A3D]">
-            Create User Account
+            Create Admin Account
           </p>
         </div>
         {/* image */}
@@ -228,13 +229,26 @@ const AdminRegister = () => {
           </div>
           {/* image */}
           <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-4">
-            <div className="w-full lg:w-1/2 bg-black/10 h-[220px] rounded-xl"></div>
-            <div className="w-full lg:w-1/2 bg-black/10 h-[220px] rounded-xl"></div>
+            <div className="w-full lg:w-1/2 bg-black/10 h-[220px] rounded-xl gap-2 flex flex-col items-center justify-center">
+              <div className="p-2 rounded-xl bg-white cursor-pointer">
+                <RiAddLine size={16} />
+              </div>
+              <p className="text-xs font-bold">Front</p>
+            </div>
+            <div className="w-full lg:w-1/2 bg-black/10 h-[220px] rounded-xl gap-2 flex flex-col items-center justify-center">
+              <div className="p-2 rounded-xl bg-white cursor-pointer">
+                <RiAddLine size={16} />
+              </div>
+              <p className="text-xs font-bold">Back</p>
+            </div>
           </div>
         </div>
         {/* buttons */}
         <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-4">
-          <div className="w-full lg:w-1/2 flex items-center justify-center truncate bg-black/10 p-3 rounded-xl text-xs font-normal cursor-pointer">
+          <div
+            className="w-full lg:w-1/2 flex items-center justify-center truncate bg-black/10 p-3 rounded-xl text-xs font-normal cursor-pointer"
+            onClick={() => navigate("/")}
+          >
             Cancel
           </div>
           <div className="w-full lg:w-1/2 flex items-center justify-center truncate bg-black p-3 rounded-xl text-xs font-normal text-white cursor-pointer">
