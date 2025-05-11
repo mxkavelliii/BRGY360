@@ -9,13 +9,12 @@ const AdminRegister = () => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [email, setEmail] = useState("");
   const [barangay, setBarangay] = useState("");
-  const [street, setStreet] = useState("");
+  const [position, setPosition] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [age, setAge] = useState("");
   const [sex, setSex] = useState("");
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
-  const [idType, setIdType] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
   const navigate = useNavigate();
@@ -33,7 +32,7 @@ const AdminRegister = () => {
         {/* image */}
         <div className="w-full flex flex-row items-center justify-start gap-4">
           <div className="relative rounded-full">
-            <div className="h-[120px] w-[120px] rounded-full bg-black"></div>
+            <div className="h-[120px] w-[120px] rounded-full bg-black/10"></div>
             <div className="absolute p-2 rounded-md bg-[#008A3D] right-1 bottom-1 cursor-pointer">
               <RiAddLine size={16} color="white" />
             </div>
@@ -104,13 +103,13 @@ const AdminRegister = () => {
               </select>
             </div>
             <div className="w-full lg:w-1/2 flex flex-col items-start justify-center gap-2">
-              <p className="text-xs font-normal">Street No.</p>
+              <p className="text-xs font-normal">Barangay Position</p>
               <input
                 type="text"
                 className="outline-none border border-[#008A3D] p-3 rounded-xl text-xs font-normal w-full"
-                placeholder="enter street number"
-                value={street}
-                onChange={(e) => setStreet(e.target.value)}
+                placeholder="enter position"
+                value={position}
+                onChange={(e) => setPosition(e.target.value)}
               />
             </div>
           </div>
@@ -208,38 +207,6 @@ const AdminRegister = () => {
                   />
                 )}
               </div>
-            </div>
-          </div>
-        </div>
-        {/* id */}
-        <div className="w-full flex flex-col items-center justify-center gap-4">
-          {/* id type */}
-          <div className="w-full flex flex-col items-start justify-center gap-2">
-            <p className="text-xs font-normal">Choose Valid ID</p>
-            <select
-              value={idType}
-              onChange={(e) => setIdType(e.target.value)}
-              className="text-xs font-normal outline-none border border-[#008A3D] p-3 rounded-xl"
-            >
-              <option value="" disabled>
-                Select ID
-              </option>
-              <option value="national-id">National ID </option>
-            </select>
-          </div>
-          {/* image */}
-          <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-4">
-            <div className="w-full lg:w-1/2 bg-black/10 h-[220px] rounded-xl gap-2 flex flex-col items-center justify-center">
-              <div className="p-2 rounded-xl bg-white cursor-pointer">
-                <RiAddLine size={16} />
-              </div>
-              <p className="text-xs font-bold">Front</p>
-            </div>
-            <div className="w-full lg:w-1/2 bg-black/10 h-[220px] rounded-xl gap-2 flex flex-col items-center justify-center">
-              <div className="p-2 rounded-xl bg-white cursor-pointer">
-                <RiAddLine size={16} />
-              </div>
-              <p className="text-xs font-bold">Back</p>
             </div>
           </div>
         </div>
