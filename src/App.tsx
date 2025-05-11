@@ -5,16 +5,27 @@ import AdminRegister from "./pages/register/admin/AdminRegister";
 
 // providers
 import { BarangayProvider } from "./providers/BarangayProvider";
+import Home from "./pages/user/Home";
+import Dashboard from "./pages/admin/Dashboard";
+import { AuthProvider } from "./providers/AuthProvider";
 
 function App() {
   return (
-    <BarangayProvider>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register/user" element={<UserRegister />} />
-        <Route path="/register/admin" element={<AdminRegister />} />
-      </Routes>
-    </BarangayProvider>
+    <AuthProvider>
+      <BarangayProvider>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register/user" element={<UserRegister />} />
+          <Route path="/register/admin" element={<AdminRegister />} />
+
+          {/* user */}
+          <Route path="/user/home" element={<Home />} />
+
+          {/* admin */}
+          <Route path="/admin/dashboard" element={<Dashboard />} />
+        </Routes>
+      </BarangayProvider>
+    </AuthProvider>
   );
 }
 
