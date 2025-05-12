@@ -5,9 +5,14 @@ import AdminRegister from "./pages/register/admin/AdminRegister";
 
 // providers
 import { BarangayProvider } from "./providers/BarangayProvider";
-import Home from "./pages/user/Home";
-import Dashboard from "./pages/admin/Dashboard";
 import { AuthProvider } from "./providers/AuthProvider";
+
+//users
+import Home from "./pages/user/Home";
+
+//admin
+import Dashboard from "./pages/admin/Dashboard";
+import Users from "./pages/admin/Users";
 
 function App() {
   return (
@@ -23,6 +28,7 @@ function App() {
 
           {/* admin */}
           <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/users" element={<Users />} />
         </Routes>
       </BarangayProvider>
     </AuthProvider>
