@@ -14,6 +14,8 @@ import {
   RiFundsBoxLine,
   RiGroupFill,
   RiGroupLine,
+  RiHome6Fill,
+  RiHome6Line,
   RiLogoutBoxRLine,
   RiNewsFill,
   RiNewsLine,
@@ -53,16 +55,36 @@ const UserNavbar = () => {
 
   return (
     <>
-      <div className="h-full fixed top-0 left-0 flex flex-col items-center justify-center text-white p-2 z-20">
-        <div className="relative h-full flex flex-col items-center justify-between p-4 lg:p-6 rounded-2xl bg-green-700">
-          <div className="flex flex-col items-center justify-center gap-6">
-            <div className="w-full flex items-center justify-start">
+      <div className="w-full lg:w-auto lg:h-full fixed bottom-0 lg:top-0 left-0 flex flex-col items-center justify-center text-white p-2 z-20">
+        <div className="relative w-auto lg:h-full flex flex-row lg:flex-col items-center justify-center gap-4 lg:justify-between p-4 lg:p-6 rounded-2xl bg-green-700">
+          <div className="flex flex-row lg:flex-col items-center justify-center gap-4 lg:gap-6">
+            <div className="hidden w-full lg:flex items-center justify-start">
               <img
                 src={Logo}
                 alt="/"
                 className="h-[30px] w-[30px] cursor-pointer"
                 onClick={() => navigate("/user/home")}
               />
+            </div>
+
+            <div
+              className="w-full flex lg:hidden flex-row items-center justify-start gap-2 cursor-pointer"
+              onClick={() => navigate("/user/home")}
+            >
+              {activeRoute === "home" ? (
+                <RiHome6Fill
+                  size={22}
+                  color="white"
+                  className="cursor-pointer"
+                />
+              ) : (
+                <RiHome6Line
+                  size={22}
+                  color="white"
+                  className="cursor-pointer"
+                />
+              )}
+              {expand ? <p className="text-sm font-normal">Profile</p> : null}
             </div>
 
             <div
@@ -146,7 +168,7 @@ const UserNavbar = () => {
             </div>
           </div>
 
-          <div className="w-full flex flex-col items-center justify-center gap-6">
+          <div className="w-auto lg:w-full flex flex-row lg:flex-col items-center justify-center gap-4 lg:gap-6">
             <div className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer">
               {activeRoute === "chatbot" ? (
                 <RiChat4Fill
@@ -179,7 +201,7 @@ const UserNavbar = () => {
         </div>
 
         <div
-          className="absolute right-[-4%] p-1 rounded-full bg-white shadow-xl shadow-black/20 cursor-pointer"
+          className="hidden lg:block absolute right-[-4%] p-1 rounded-full bg-white shadow-xl shadow-black/20 cursor-pointer"
           onClick={() => setExpand(!expand)}
         >
           {expand ? (

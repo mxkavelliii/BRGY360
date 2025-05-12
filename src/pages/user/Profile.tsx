@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useBarangay } from "../../providers/BarangayProvider";
 import { useNavigate } from "react-router-dom";
-import { RiAddLine } from "react-icons/ri";
+import { RiAddLine, RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
 import Modal from "../../components/Modal";
 import DeleteModal from "../../components/DeleteModal";
 import UserNavbar from "../../components/UserNavbar";
@@ -69,6 +69,7 @@ const Profile = () => {
       profile && formData.append("profile", profile);
       formData.append("role", "user");
       formData.append("barangayId", barangay);
+      password && formData.append("password", password);
 
       const response = await axios.put(url, formData, {
         headers: {
@@ -116,7 +117,6 @@ const Profile = () => {
               setAge(response.data.data.age);
               setSex(response.data.data.sex);
               setProfile(response.data.data.profile);
-              setPassword(response.data.data.password);
               setUserId(response.data.data._id);
               const isoDate = response.data.data.birthdate;
               const formattedDate = isoDate ? isoDate.split("T")[0] : "";
@@ -143,8 +143,8 @@ const Profile = () => {
   return (
     <>
       <UserNavbar />
-      <div className="flex flex-row items-center justify-center">
-        <div className="w-[100px]"></div>
+      <div className="flex flex-col lg:flex-row items-center justify-center">
+        <div className="hidden lg:flex w-[100px]"></div>
         <div className="w-full min-h-screen flex items-center justify-center px-4 py-6">
           <div className="w-full lg:w-2/4 flex flex-col items-center justify-center bg-white p-6 gap-6 rounded-2xl shadow-xl shadow-black/20">
             {/* edit */}
@@ -350,9 +350,39 @@ const Profile = () => {
                   <option value="female">Female</option>
                 </select>
               </div>
+              {/* password */}
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">Password</p>
+                <div className="w-full flex flex-row relative items-center">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="w-full text-xs font-normal outline-none border border-green-700 rounded-xl p-3"
+                    placeholder="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={edit ? false : true}
+                  />
+                  {showPassword ? (
+                    <RiEyeLine
+                      className="absolute right-4 cursor-pointer"
+                      size={12}
+                      color="black"
+                      onClick={() => setShowPassword(!showPassword)}
+                    />
+                  ) : (
+                    <RiEyeCloseLine
+                      className="absolute right-4 cursor-pointer"
+                      size={12}
+                      color="black"
+                      onClick={() => setShowPassword(!showPassword)}
+                    />
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        <div className="flex lg:hidden w-full h-[100px]"></div>
       </div>
       {showModal && (
         <Modal

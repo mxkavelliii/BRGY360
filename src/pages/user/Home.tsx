@@ -9,9 +9,9 @@ const Home = () => {
     <>
       <UserNavbar />
       <div className="flex flex-row items-center justify-center">
-        <div className="w-[100px]"></div>
+        <div className="hidden lg:flex w-[100px]"></div>
         <div className="w-full min-h-screen flex items-center justify-center px-4 py-6">
-          <div className="w-full lg:w-2/4 flex flex-col items-center justify-center">
+          <div className="w-4/5 lg:w-2/4 flex flex-col items-center justify-center">
             <p className="text-3xl font-bold uppercase text-green-700 text-center">
               Welcome to Barangay 360
             </p>
