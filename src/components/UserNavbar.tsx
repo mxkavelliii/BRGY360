@@ -57,7 +57,12 @@ const UserNavbar = () => {
         <div className="relative h-full flex flex-col items-center justify-between p-4 lg:p-6 rounded-2xl bg-green-700">
           <div className="flex flex-col items-center justify-center gap-6">
             <div className="w-full flex items-center justify-start">
-              <img src={Logo} alt="/" className="h-[30px] w-[30px]" />
+              <img
+                src={Logo}
+                alt="/"
+                className="h-[30px] w-[30px] cursor-pointer"
+                onClick={() => navigate("/user/home")}
+              />
             </div>
 
             <div
@@ -99,7 +104,10 @@ const UserNavbar = () => {
               ) : null}
             </div>
 
-            <div className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer">
+            <div
+              className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer"
+              onClick={() => navigate("/user/news")}
+            >
               {activeRoute === "news" ? (
                 <RiNewsFill
                   size={22}

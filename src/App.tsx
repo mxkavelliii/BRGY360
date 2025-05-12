@@ -10,6 +10,7 @@ import { AuthProvider } from "./providers/AuthProvider";
 //users
 import Home from "./pages/user/Home";
 import UserProfile from "./pages/user/Profile";
+import UserNews from "./pages/user/News";
 
 //admin
 import Dashboard from "./pages/admin/Dashboard";
@@ -28,6 +29,7 @@ function App() {
           {/* user */}
           <Route path="/user/home" element={<Home />} />
           <Route path="/user/profile" element={<UserProfile />} />
+          <Route path="/user/news" element={<UserNews />} />
 
           {/* admin */}
           <Route path="/admin/dashboard" element={<Dashboard />} />
