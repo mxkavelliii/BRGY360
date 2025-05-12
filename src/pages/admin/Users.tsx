@@ -5,8 +5,9 @@ const Users = () => {
   return (
     <>
       <AdminNavbar />
-      <div className="h-screen w-full flex items-center justify-center">
-        <p>Users</p>
+      <div className="flex flex-row items-center justify-center">
+        <div className="w-[100px]"></div>
+        <div className="w-full flex items-center justify-center"></div>
       </div>
     </>
   );

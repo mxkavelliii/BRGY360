@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../providers/AuthProvider";
 import {
   RiArrowDropLeftLine,
   RiArrowDropRightLine,
@@ -19,10 +21,8 @@ import {
   RiUser4Line,
 } from "react-icons/ri";
 import Logo from "../assets/Logo.png";
-import { useAuth } from "../providers/AuthProvider";
-import { useLocation, useNavigate } from "react-router-dom";
 
-const AdminNavbar = () => {
+const UserNavbar = () => {
   const [expand, setExpand] = useState(false);
   const { onLogout } = useAuth();
   const navigate = useNavigate();
@@ -30,25 +30,22 @@ const AdminNavbar = () => {
   const [activeRoute, setActiveRoute] = useState("dashboard");
 
   useEffect(() => {
-    if (location.pathname.includes("/admin/dashboard")) {
-      setActiveRoute("dashboard");
-      document.title = "Dashboard";
-    } else if (location.pathname.includes("/admin/profile")) {
+    if (location.pathname.includes("/user/home")) {
+      setActiveRoute("home");
+      document.title = "Home";
+    } else if (location.pathname.includes("/user/profile")) {
       setActiveRoute("profile");
       document.title = "Profile";
-    } else if (location.pathname.includes("/admin/requests")) {
+    } else if (location.pathname.includes("/user/requests")) {
       setActiveRoute("requests");
       document.title = "File Requests";
-    } else if (location.pathname.includes("/admin/news")) {
+    } else if (location.pathname.includes("/user/news")) {
       setActiveRoute("news");
       document.title = "News and Announcements";
-    } else if (location.pathname.includes("/admin/transparency")) {
+    } else if (location.pathname.includes("/user/transparency")) {
       setActiveRoute("transparency");
       document.title = "Transparency Dashboard";
-    } else if (location.pathname.includes("/admin/users")) {
-      setActiveRoute("users");
-      document.title = "Users";
-    } else if (location.pathname.includes("/admin/chatbot")) {
+    } else if (location.pathname.includes("/user/chatbot")) {
       setActiveRoute("chatbot");
       document.title = "Chat Bot";
     }
@@ -62,29 +59,10 @@ const AdminNavbar = () => {
             <div className="w-full flex items-center justify-start">
               <img src={Logo} alt="/" className="h-[30px] w-[30px]" />
             </div>
-            <div
-              className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer"
-              onClick={() => navigate("/admin/dashboard")}
-            >
-              {activeRoute === "dashboard" ? (
-                <RiDashboardFill
-                  size={22}
-                  color="white"
-                  className="cursor-pointer"
-                />
-              ) : (
-                <RiDashboardLine
-                  size={22}
-                  color="white"
-                  className="cursor-pointer"
-                />
-              )}
-              {expand ? <p className="text-sm font-normal">Dashboard</p> : null}
-            </div>
 
             <div
               className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer"
-              onClick={() => navigate("/admin/profile")}
+              onClick={() => navigate("/user/profile")}
             >
               {activeRoute === "profile" ? (
                 <RiUser4Fill
@@ -158,28 +136,6 @@ const AdminNavbar = () => {
                 <p className="text-sm font-normal">Transparency Dashboard</p>
               ) : null}
             </div>
-
-            <div
-              className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer"
-              onClick={() => navigate("/admin/users")}
-            >
-              {activeRoute === "users" ? (
-                <RiGroupFill
-                  size={22}
-                  color="white"
-                  className="cursor-pointer"
-                />
-              ) : (
-                <RiGroupLine
-                  size={22}
-                  color="white"
-                  className="cursor-pointer"
-                />
-              )}
-              {expand ? (
-                <p className="text-sm font-normal">User Management</p>
-              ) : null}
-            </div>
           </div>
 
           <div className="w-full flex flex-col items-center justify-center gap-6">
@@ -229,4 +185,4 @@ const AdminNavbar = () => {
   );
 };
 
-export default AdminNavbar;
+export default UserNavbar;

@@ -9,10 +9,12 @@ import { AuthProvider } from "./providers/AuthProvider";
 
 //users
 import Home from "./pages/user/Home";
+import UserProfile from "./pages/user/Profile";
 
 //admin
 import Dashboard from "./pages/admin/Dashboard";
 import Users from "./pages/admin/Users";
+import AdminProfile from "./pages/admin/Profile";
 
 function App() {
   return (
@@ -25,10 +27,12 @@ function App() {
 
           {/* user */}
           <Route path="/user/home" element={<Home />} />
+          <Route path="/user/profile" element={<UserProfile />} />
 
           {/* admin */}
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/users" element={<Users />} />
+          <Route path="/admin/profile" element={<AdminProfile />} />
         </Routes>
       </BarangayProvider>
     </AuthProvider>
