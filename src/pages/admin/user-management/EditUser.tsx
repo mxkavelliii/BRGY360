@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
-import AdminNavbar from "../../components/AdminNavbar";
-import { useBarangay } from "../../providers/BarangayProvider";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useBarangay } from "../../../providers/BarangayProvider";
+import {
+  RiAddLine,
+  RiArrowLeftSLine,
+  RiEyeCloseLine,
+  RiEyeLine,
+} from "react-icons/ri";
+import AdminNavbar from "../../../components/AdminNavbar";
 import axios from "axios";
-import Modal from "../../components/Modal";
-import DeleteModal from "../../components/DeleteModal";
-import { useNavigate } from "react-router-dom";
-import { RiAddLine, RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
+import Modal from "../../../components/Modal";
 
-const Profile = () => {
+const EditUser = () => {
+  const { state } = useLocation();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,8 +28,9 @@ const Profile = () => {
   const [front, setFront] = useState<File | null>(null);
   const [back, setBack] = useState<File | null>(null);
   const [idType, setIdType] = useState("");
+  const [status, setStatus] = useState("");
 
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const { barangays, getBarangays } = useBarangay();
   const [userId, setUserId] = useState("");
@@ -33,119 +40,128 @@ const Profile = () => {
   const [error, setError] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const [preview, setPreview] = useState<string | null>(null);
+  const [profilePreview, setProfilePreview] = useState<string | null>(null);
+  const [backPreview, setBackPreview] = useState<string | null>(null);
+  const [frontPreview, setFrontPreview] = useState<string | null>(null);
 
   useEffect(() => {
     getBarangays();
-  }, []);
-
-  const deleteUser = async () => {
-    if (userId) {
-      try {
-        let url = `http://localhost:8080/api/users/${userId}`;
-
-        let response = await axios.delete(url);
-
-        if (response.data.success === true) {
-          navigate("/");
-          localStorage.removeItem("user");
-        }
-      } catch (error: any) {
-        console.log(error);
-      }
-    }
-  };
-
-  const updateAdmin = async () => {
-    try {
-      let url = `http://localhost:8080/api/users/${userId}`;
-
-      const formData = new FormData();
-      formData.append("firstName", firstName);
-      formData.append("lastName", lastName);
-      formData.append("sex", sex);
-      formData.append("birthdate", birthDate);
-      formData.append("age", age);
-      formData.append("email", email);
-      formData.append("phoneNumber", mobileNumber);
-      formData.append("address", address);
-      profile && formData.append("profile", profile);
-      formData.append("role", "admin");
-      formData.append("barangayId", barangay);
-      password && formData.append("password", password);
-      formData.append("type", idType);
-      back && formData.append("back", back);
-      front && formData.append("front", front);
-
-      const response = await axios.put(url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      if (response.data.success === true) {
-        console.log(response.data);
-        setShowModal(true);
-        setMessage("Successfully Updated!");
-        setError(false);
-        setEdit(false);
-      }
-    } catch (error: any) {
-      console.log(error.response.data);
-      setEdit(false);
-      setError(true);
-      setMessage("An error occurred, please try again later");
-      setShowModal(true);
-    }
-  };
-
-  useEffect(() => {
-    const getUser = async () => {
-      const user = localStorage.getItem("user");
-
-      if (user) {
-        const currUser = JSON.parse(user);
-
-        if (currUser) {
-          console.log(currUser);
-          try {
-            let url = `http://localhost:8080/api/users/${currUser._id}`;
-
-            let response = await axios.get(url);
-
-            if (response.data.success === true) {
-              setFirstName(response.data.data.firstName);
-              setLastName(response.data.data.lastName);
-              setMobileNumber(response.data.data.phoneNumber);
-              setEmail(response.data.data.email);
-              setAddress(response.data.data.address);
-              setBarangay(response.data.data.barangayId);
-              setAge(response.data.data.age);
-              setSex(response.data.data.sex);
-              setProfile(response.data.data.profile);
-              setUserId(response.data.data._id);
-              setFront(response.data.data.validId.front);
-              setBack(response.data.data.validId.back);
-              setIdType(response.data.data.validId.type);
-              const isoDate = response.data.data.birthdate;
-              const formattedDate = isoDate ? isoDate.split("T")[0] : "";
-              setBirthDate(formattedDate);
-            }
-          } catch (error: any) {
-            console.log(error);
-          }
-        }
-      }
-    };
-
-    getUser();
   }, []);
 
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setProfile(file);
-      setPreview(URL.createObjectURL(file));
+      setProfilePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleFrontChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFront(file);
+      setFrontPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleBackChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setBack(file);
+      setBackPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const getData = async () => {
+    try {
+      let url = `http://localhost:8080/api/users/${state}`;
+
+      let response = await axios.get(url);
+
+      if (response.data.success === true) {
+        console.log(response.data.data);
+        setFirstName(response.data.data.firstName);
+        setLastName(response.data.data.lastName);
+        setMobileNumber(response.data.data.phoneNumber);
+        setEmail(response.data.data.email);
+        setAddress(response.data.data.address);
+        setBarangay(response.data.data.barangayId);
+        setAge(response.data.data.age);
+        setSex(response.data.data.sex);
+        setProfile(response.data.data.profile);
+        setUserId(response.data.data._id);
+        setFront(response.data.data.validId.front);
+        setBack(response.data.data.validId.back);
+        setIdType(response.data.data.validId.type);
+        const isoDate = response.data.data.birthdate;
+        const formattedDate = isoDate ? isoDate.split("T")[0] : "";
+        setBirthDate(formattedDate);
+        setStatus(response.data.data.status);
+      }
+    } catch (error: any) {
+      console.log(error.response);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const updateUser = async () => {
+    if (
+      (frontPreview === null && backPreview === null) ||
+      (frontPreview !== null && backPreview !== null)
+    ) {
+      try {
+        let url = `http://localhost:8080/api/users/${userId}`;
+
+        const formData = new FormData();
+        formData.append("firstName", firstName);
+        formData.append("lastName", lastName);
+        formData.append("sex", sex);
+        formData.append("birthdate", birthDate);
+        formData.append("age", age);
+        formData.append("email", email);
+        formData.append("phoneNumber", mobileNumber);
+        formData.append("address", address);
+        profile && formData.append("profile", profile);
+        formData.append("role", "admin");
+        formData.append("barangayId", barangay);
+        password && formData.append("password", password);
+        formData.append("type", idType);
+        back && formData.append("back", back);
+        front && formData.append("front", front);
+        formData.append("status", status);
+
+        console.log("front:", formData.get("front"));
+        console.log("back:", formData.get("back"));
+
+        const response = await axios.put(url, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        if (response.data.success === true) {
+          console.log(response.data);
+          setShowModal(true);
+          setMessage("Successfully Updated!");
+          setError(false);
+          setFrontPreview(null);
+          setBackPreview(null);
+        }
+      } catch (error: any) {
+        console.log(error.response.data);
+        setError(true);
+        setMessage("An error occurred, please try again later");
+        setShowModal(true);
+        setFrontPreview(null);
+        setBackPreview(null);
+      }
+    } else {
+      setError(true);
+      setMessage("Both ID Faces have to be changed in order to proceed");
+      setShowModal(true);
     }
   };
 
@@ -157,36 +173,21 @@ const Profile = () => {
         <div className="w-full min-h-screen flex items-center justify-center px-4 py-6">
           <div className="w-full lg:w-2/4 flex flex-col items-center justify-center bg-white p-6 gap-6 rounded-2xl shadow-xl shadow-black/20">
             {/* edit */}
-            <div className="w-full flex flex-row items-center justify-end">
-              {edit ? (
-                <>
-                  <div
-                    className="p-2 rounded-xl bg-red-700 text-xs font-normal text-white cursor-pointer mr-2"
-                    onClick={() => showDeleteModal(true)}
-                  >
-                    Delete
-                  </div>
-                  <div
-                    className="p-2 rounded-xl bg-green-700 text-xs font-normal text-white cursor-pointer mr-2"
-                    onClick={() => setEdit(false)}
-                  >
-                    Cancel
-                  </div>
-                  <div
-                    className="p-2 rounded-xl bg-green-700 text-xs font-normal text-white cursor-pointer"
-                    onClick={() => updateAdmin()}
-                  >
-                    Save
-                  </div>
-                </>
-              ) : (
-                <div
-                  className="p-2 rounded-xl bg-green-700 text-xs font-normal text-white cursor-pointer"
-                  onClick={() => setEdit(true)}
-                >
-                  Edit Profile
-                </div>
-              )}
+
+            <div className="w-full flex flex-row items-center justify-between">
+              <div
+                className="flex flex-row items-center justify-center gap-1 cursor-pointer"
+                onClick={() => navigate("/admin/users")}
+              >
+                <RiArrowLeftSLine size={24} color="black" />
+                <p className="text-xs font-normal">Back</p>
+              </div>
+              <div
+                className="p-2 rounded-xl bg-green-700 text-xs font-normal text-white cursor-pointer"
+                onClick={() => updateUser()}
+              >
+                Save
+              </div>
             </div>
             {/* image */}
             <div className="w-full flex flex-row items-center justify-start gap-4">
@@ -195,8 +196,8 @@ const Profile = () => {
                   {profile ? (
                     <img
                       src={
-                        preview
-                          ? preview
+                        profilePreview
+                          ? profilePreview
                           : profile
                           ? `http://localhost:8080/api/images/${profile}`
                           : ""
@@ -388,6 +389,94 @@ const Profile = () => {
                   )}
                 </div>
               </div>
+              {/* status */}
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">Status</p>
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className="w-full p-3 rounded-xl outline-none border border-[#008A3D] text-xs font-normal"
+                  disabled={edit ? false : true}
+                >
+                  <option value="" disabled>
+                    Select an option
+                  </option>
+                  <option value="pending">Pending</option>
+                  <option value="active">Approved</option>
+                  <option value="inactive">Declined</option>
+                </select>
+              </div>
+            </div>
+            {/* id */}
+            <div className="w-full flex flex-col items-center justify-center gap-4">
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">ID Type</p>
+                <select
+                  value={idType}
+                  onChange={(e) => setIdType(e.target.value)}
+                  className="text-xs font-normal outline-none border border-green-700 p-3 rounded-xl"
+                >
+                  <option value="" disabled>
+                    select option
+                  </option>
+                  <option value="national-id">National ID </option>
+                  <option value="sss-id">SSS ID </option>
+                  <option value="philhealth-id">Philhealth ID </option>
+                  <option value="postal-id">Postal ID </option>
+                  <option value="voters-id">Voter's ID </option>
+                </select>
+              </div>
+              <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-4">
+                <div
+                  className="w-full lg:w-1/2 bg-black/10 h-[220px] rounded-xl gap-2 flex flex-col items-center justify-center"
+                  style={{
+                    backgroundImage: frontPreview
+                      ? `url(${frontPreview})`
+                      : front
+                      ? `url("http://localhost:8080/api/images/${front}")`
+                      : "",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  <label className="p-2 rounded-xl bg-white cursor-pointer">
+                    <RiAddLine size={16} />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFrontChange}
+                      className="hidden"
+                      disabled={edit ? false : true}
+                    />
+                  </label>
+                  <p className="text-xs font-normal text-white">Front</p>
+                </div>
+                <div
+                  className="w-full lg:w-1/2 bg-black/10 h-[220px] rounded-xl gap-2 flex flex-col items-center justify-center"
+                  style={{
+                    backgroundImage: backPreview
+                      ? `url(${backPreview})`
+                      : back
+                      ? `url("http://localhost:8080/api/images/${back}")`
+                      : "",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  <label className="p-2 rounded-xl bg-white cursor-pointer">
+                    <RiAddLine size={16} />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleBackChange}
+                      className="hidden"
+                      disabled={edit ? false : true}
+                    />
+                  </label>
+
+                  <p className="text-xs font-normal text-white">Back</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -395,19 +484,18 @@ const Profile = () => {
       </div>
       {showModal && (
         <Modal
-          error={error}
           message={message}
-          onClose={() => setShowModal(false)}
-        />
-      )}
-      {deleteModal && (
-        <DeleteModal
-          onDelete={() => deleteUser()}
-          onClose={() => showDeleteModal(false)}
+          error={error}
+          onClose={() => {
+            setShowModal(false);
+            if (!error) {
+              getData();
+            }
+          }}
         />
       )}
     </>
   );
 };
 
-export default Profile;
+export default EditUser;

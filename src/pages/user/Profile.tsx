@@ -19,6 +19,9 @@ const Profile = () => {
   const [sex, setSex] = useState("");
   const [profile, setProfile] = useState<File | null>(null);
   const [password, setPassword] = useState("");
+  const [front, setFront] = useState<File | null>(null);
+  const [back, setBack] = useState<File | null>(null);
+  const [idType, setIdType] = useState("");
 
   const [edit, setEdit] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -70,6 +73,9 @@ const Profile = () => {
       formData.append("role", "user");
       formData.append("barangayId", barangay);
       password && formData.append("password", password);
+      formData.append("type", idType);
+      back && formData.append("back", back);
+      front && formData.append("front", front);
 
       const response = await axios.put(url, formData, {
         headers: {
@@ -118,6 +124,9 @@ const Profile = () => {
               setSex(response.data.data.sex);
               setProfile(response.data.data.profile);
               setUserId(response.data.data._id);
+              setFront(response.data.data.validId.front);
+              setBack(response.data.data.validId.back);
+              setIdType(response.data.data.validId.type);
               const isoDate = response.data.data.birthdate;
               const formattedDate = isoDate ? isoDate.split("T")[0] : "";
               setBirthDate(formattedDate);
