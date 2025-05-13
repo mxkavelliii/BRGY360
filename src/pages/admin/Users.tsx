@@ -89,11 +89,27 @@ const Users = () => {
         <div className="hidden lg:flex w-[100px]"></div>
         <div className="w-full flex flex-col items-center justify-center gap-6 px-4 py-6">
           {/* title */}
-          <div className="w-full flex flex-col items-start justify-center">
-            <p className="text-sm font-semibold">Manage Users</p>
-            <p className="text-xs font-normal">
-              Approve or delete users and admins
-            </p>
+          <div className="w-full flex flex-row items-center justify-between">
+            <div className="w-1/2 flex flex-col items-start justify-center">
+              <p className="text-sm font-semibold">Manage Users</p>
+              <p className="text-xs font-normal w-full truncate">
+                Approve or delete users and admins
+              </p>
+            </div>
+            <div className="flex items-center justify-center gap-2">
+              <div
+                className="p-3 rounded-xl bg-green-700 text-xs font-normal text-white cursor-pointer"
+                onClick={() => navigate("/admin/users/add/user")}
+              >
+                Add User
+              </div>
+              <div
+                className="p-3 rounded-xl bg-green-700 text-xs font-normal text-white cursor-pointer"
+                onClick={() => navigate("/admin/users/add/admin")}
+              >
+                Add Admin
+              </div>
+            </div>
           </div>
           {/* search + filters */}
           <div className="w-full flex flex-row gap-4 items-center justify-start">

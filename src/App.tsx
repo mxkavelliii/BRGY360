@@ -19,6 +19,8 @@ import Users from "./pages/admin/Users";
 import AdminProfile from "./pages/admin/Profile";
 import ViewUser from "./pages/admin/user-management/ViewUser";
 import EditUser from "./pages/admin/user-management/EditUser";
+import AddUser from "./pages/admin/user-management/AddUser";
+import AddAdmin from "./pages/admin/user-management/AddAdmin";
 
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
             {/* admin */}
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/users" element={<Users />} />
+            <Route path="/admin/users/add/user" element={<AddUser />} />
+            <Route path="/admin/users/add/admin" element={<AddAdmin />} />
             <Route path="/admin/users/view" element={<ViewUser />} />
             <Route path="/admin/users/edit" element={<EditUser />} />
             <Route path="/admin/profile" element={<AdminProfile />} />
