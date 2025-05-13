@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import UserApproval from "../../components/UserApproval";
 
 const Users = () => {
-  const { users, getUsers } = useUsers();
+  const { users, getUsers, totalPages } = useUsers();
   const limit = 20;
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState("pending");
@@ -255,6 +255,28 @@ const Users = () => {
               )}
             </tbody>
           </table>
+          <div className="flex flex-row items-center justify-center space-x-4 py-6">
+            {Array.from({ length: totalPages }, (_, index) => index + 1)
+              .filter(
+                (pageNumber) =>
+                  pageNumber === page ||
+                  pageNumber === page - 1 ||
+                  pageNumber === page + 1
+              )
+              .map((pageNumber) => (
+                <p
+                  key={pageNumber}
+                  className={`cursor-pointer ${
+                    page === pageNumber
+                      ? "font-semibold text-sm"
+                      : "font-normal text-xs text-[#6E6E6E]"
+                  }`}
+                  onClick={() => setPage(pageNumber)}
+                >
+                  {pageNumber}
+                </p>
+              ))}
+          </div>
         </div>
       </div>
       {deleteModal && (

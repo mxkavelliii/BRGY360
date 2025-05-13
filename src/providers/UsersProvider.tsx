@@ -5,6 +5,7 @@ const UsersContext = createContext<any | null>(null);
 
 export const UsersProvider = ({ children }: any) => {
   const [users, setUsers] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
 
   const getUsers = async (
     barangayId: string,
@@ -22,6 +23,7 @@ export const UsersProvider = ({ children }: any) => {
         if (response.data.success === true) {
           console.log(response.data.data);
           setUsers(response.data.data);
+          setTotalPages(response.data.meta.totalPages);
         }
       } catch (error: any) {
         console.log(error);
@@ -30,7 +32,7 @@ export const UsersProvider = ({ children }: any) => {
   };
 
   return (
-    <UsersContext.Provider value={{ users, getUsers }}>
+    <UsersContext.Provider value={{ users, getUsers, totalPages }}>
       {children}
     </UsersContext.Provider>
   );
