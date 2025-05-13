@@ -65,6 +65,7 @@ const Users = () => {
             if (response.data.success === true) {
               setBarangayId(response.data.data.barangayId);
               await getUsers(
+                search,
                 response.data.data.barangayId,
                 page,
                 limit,
@@ -80,7 +81,7 @@ const Users = () => {
     };
 
     getData();
-  }, [page, limit, status, role]);
+  }, [search, page, limit, status, role]);
 
   return (
     <>

@@ -8,6 +8,7 @@ export const UsersProvider = ({ children }: any) => {
   const [totalPages, setTotalPages] = useState(0);
 
   const getUsers = async (
+    search: string,
     barangayId: string,
     page: number,
     limit: number,
@@ -16,7 +17,7 @@ export const UsersProvider = ({ children }: any) => {
   ) => {
     if (barangayId) {
       try {
-        let url = `http://localhost:8080/api/users?barangayId=${barangayId}&page=${page}&limit=${limit}&status=${status}&role=${role}`;
+        let url = `http://localhost:8080/api/users?search=${search}&barangayId=${barangayId}&page=${page}&limit=${limit}&status=${status}&role=${role}`;
 
         let response = await axios.get(url);
 
