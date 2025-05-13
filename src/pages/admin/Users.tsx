@@ -302,7 +302,7 @@ const Users = () => {
         <UserApproval
           userId={selectedUser}
           onClose={() => {
-            getUsers(barangayId, page, limit, status, role);
+            getUsers(search, barangayId, page, limit, status, role);
             showApprovalForm(false);
           }}
         />
