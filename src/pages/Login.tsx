@@ -17,42 +17,36 @@ const Login = () => {
   const [error, setError] = useState(false);
 
   const onLogin = async () => {
-    if (email && password) {
-      try {
-        let url = "http://localhost:8080/api/users/login";
+    try {
+      let url = "http://localhost:8080/api/users/login";
 
-        let response = await axios.post(url, {
-          email: email,
-          password: password,
-        });
+      let response = await axios.post(url, {
+        email: email,
+        password: password,
+      });
 
-        if (response.data.success === true) {
-          if (response.data.data.status === "active") {
-            if (response.data.data.role === "user") {
-              navigate("/user/home");
-            } else if (response.data.data.role === "admin") {
-              navigate("/admin/dashboard");
-            }
-            if (remember) {
-              localStorage.setItem("user", JSON.stringify(response.data.data));
-            }
-          } else {
-            setShowModal(true);
-            setError(true);
-            setMessage(
-              "Account Pending! Please wait for admins to approve your account"
-            );
+      if (response.data.success === true) {
+        if (response.data.data.status === "active") {
+          if (response.data.data.role === "user") {
+            navigate("/user/home");
+          } else if (response.data.data.role === "admin") {
+            navigate("/admin/dashboard");
           }
+          if (remember) {
+            localStorage.setItem("user", JSON.stringify(response.data.data));
+          }
+        } else {
+          setShowModal(true);
+          setError(true);
+          setMessage(
+            "Account Pending! Please wait for admins to approve your account"
+          );
         }
-      } catch (error: any) {
-        setShowModal(true);
-        setError(true);
-        setMessage("An error occurred, please try again after a second!");
       }
-    } else {
+    } catch (error: any) {
       setShowModal(true);
       setError(true);
-      setMessage("Missing required Fields!");
+      setMessage(error.response.data.message);
     }
   };
 
