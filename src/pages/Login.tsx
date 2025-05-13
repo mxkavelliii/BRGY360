@@ -27,13 +27,21 @@ const Login = () => {
         });
 
         if (response.data.success === true) {
-          if (response.data.data.role === "user") {
-            navigate("/user/home");
-          } else if (response.data.data.role === "admin") {
-            navigate("/admin/dashboard");
-          }
-          if (remember) {
-            localStorage.setItem("user", JSON.stringify(response.data.data));
+          if (response.data.data.status === "active") {
+            if (response.data.data.role === "user") {
+              navigate("/user/home");
+            } else if (response.data.data.role === "admin") {
+              navigate("/admin/dashboard");
+            }
+            if (remember) {
+              localStorage.setItem("user", JSON.stringify(response.data.data));
+            }
+          } else {
+            setShowModal(true);
+            setError(true);
+            setMessage(
+              "Account Pending! Please wait for admins to approve your account"
+            );
           }
         }
       } catch (error: any) {
