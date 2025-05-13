@@ -388,7 +388,7 @@ const AddUser = () => {
             <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-4">
               <div
                 className="w-full lg:w-1/2 flex items-center justify-center truncate bg-black/10 p-3 rounded-xl text-xs font-normal cursor-pointer"
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/admin/users")}
               >
                 Cancel
               </div>
