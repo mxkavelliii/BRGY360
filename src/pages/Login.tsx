@@ -27,13 +27,11 @@ const Login = () => {
 
       if (response.data.success === true) {
         if (response.data.data.status === "active") {
+          localStorage.setItem("user", JSON.stringify(response.data.data));
           if (response.data.data.role === "user") {
             navigate("/user/home");
           } else if (response.data.data.role === "admin") {
             navigate("/admin/dashboard");
-          }
-          if (remember) {
-            localStorage.setItem("user", JSON.stringify(response.data.data));
           }
         } else {
           setShowModal(true);

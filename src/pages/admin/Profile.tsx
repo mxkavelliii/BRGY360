@@ -86,7 +86,7 @@ const Profile = () => {
       if (response.data.success === true) {
         console.log(response.data);
         setShowModal(true);
-        setMessage("Successfully Updated!");
+        setMessage(response.data.message);
         setError(false);
         setEdit(false);
       }
@@ -94,7 +94,7 @@ const Profile = () => {
       console.log(error.response.data);
       setEdit(false);
       setError(true);
-      setMessage("An error occurred, please try again later");
+      setMessage(error.response.data.message);
       setShowModal(true);
     }
   };

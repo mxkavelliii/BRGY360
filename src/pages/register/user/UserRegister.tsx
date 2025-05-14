@@ -66,11 +66,11 @@ const UserRegister = () => {
 
         if (response.data.success === true) {
           setError(false);
-          setMessage("Register Successful! Please wait for the approval");
+          setMessage(response.data.message);
           setShowModal(true);
         }
       } catch (error: any) {
-        setMessage("An error occurred! Please check the form or try again");
+        setMessage(error.response.data.message);
         setError(true);
         setShowModal(true);
       }

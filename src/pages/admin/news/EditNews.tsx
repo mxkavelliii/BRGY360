@@ -10,7 +10,7 @@ import DeleteModal from "../../../components/DeleteModal";
 
 const EditNews = () => {
   const navigate = useNavigate();
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState<any | null>(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -20,6 +20,7 @@ const EditNews = () => {
   const [error, setError] = useState(false);
   const { state } = useLocation();
   const [deleteModal, showDeleteModal] = useState(false);
+  const [imageChanged, setImageChanged] = useState(false);
 
   const handleInput = () => {
     const textarea = textareaRef.current;
@@ -37,6 +38,7 @@ const EditNews = () => {
     const file = e.target.files?.[0];
     if (file) {
       setImage(file); // Store the file itself
+      setImageChanged(true);
     }
   };
 
@@ -63,8 +65,20 @@ const EditNews = () => {
               formData.append("title", title);
               formData.append("contents", content);
               formData.append("barangayId", barangayId);
-              image && formData.append("image", image);
               formData.append("date", currentDate);
+
+              if (!imageChanged) {
+                let url = `http://localhost:8080/api/images/${encodeURIComponent(
+                  image
+                )}`;
+
+                const response = await fetch(url);
+                const blob = await response.blob();
+
+                formData.append("image", blob, image);
+              } else {
+                image && formData.append("image", image);
+              }
 
               const response = await axios.put(url, formData, {
                 headers: {

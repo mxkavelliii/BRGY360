@@ -145,7 +145,7 @@ const EditUser = () => {
         if (response.data.success === true) {
           console.log(response.data);
           setShowModal(true);
-          setMessage("Successfully Updated!");
+          setMessage(response.data.message);
           setError(false);
           setFrontPreview(null);
           setBackPreview(null);
@@ -153,7 +153,7 @@ const EditUser = () => {
       } catch (error: any) {
         console.log(error.response.data);
         setError(true);
-        setMessage("An error occurred, please try again later");
+        setMessage(error.response.data.message);
         setShowModal(true);
         setFrontPreview(null);
         setBackPreview(null);
