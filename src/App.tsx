@@ -27,6 +27,8 @@ import AddAdmin from "./pages/admin/user-management/AddAdmin";
 import AdminNews from "./pages/admin/News";
 import AddNews from "./pages/admin/news/AddNews";
 import EditNews from "./pages/admin/news/EditNews";
+import AdminTransparency from "./pages/admin/TransparencyDashboard";
+import AdminProjectUpdates from "./pages/admin/ProjectUpdates";
 
 function App() {
   return (
@@ -57,6 +59,14 @@ function App() {
               <Route path="/admin/news" element={<AdminNews />} />
               <Route path="/admin/news/add" element={<AddNews />} />
               <Route path="/admin/news/edit" element={<EditNews />} />
+              <Route
+                path="/admin/transparency"
+                element={<AdminTransparency />}
+              />
+              <Route
+                path="/admin/transparency/updates"
+                element={<AdminProjectUpdates />}
+              />
             </Routes>
           </UsersProvider>
         </NewsProvider>
