@@ -18,7 +18,7 @@ const AllNews = () => {
         const currUser = JSON.parse(user);
 
         if (currUser) {
-          await getNews(currUser.barangayId, page, limit);
+          await getNews("", currUser.barangayId, page, limit);
           await getLatestNews(currUser.barangayId);
         }
       }
@@ -58,7 +58,9 @@ const AllNews = () => {
                       style={{
                         backgroundImage:
                           latestNews.image !== "N/A"
-                            ? `url(http://localhost:8080/api/images/${latestNews.image})`
+                            ? `url(http://localhost:8080/api/images/${encodeURIComponent(
+                                latestNews.image
+                              )})`
                             : "",
                       }}
                     ></div>
@@ -67,9 +69,9 @@ const AllNews = () => {
                       <p className="text-sm font-semibold text-green-700">
                         {latestNews.title}
                       </p>
-                      <p className="text-xs font-normal">
+                      <pre className="text-xs font-normal whitespace-pre-wrap break-words font-sans">
                         {latestNews.contents}
-                      </p>
+                      </pre>
                     </div>
                   </div>
                 ))

@@ -9,15 +9,22 @@ export const NewsProvider = ({ children }: any) => {
   const [totalPages, setTotalPages] = useState(0);
   const [latestNews, setLatestNews] = useState([]);
 
-  const getNews = async (barangayId: string, page: number, limit: number) => {
+  const getNews = async (
+    title: string,
+    barangayId: string,
+    page: number,
+    limit: number
+  ) => {
     try {
-      let url = `http://localhost:8080/api/news-announcements?page=${page}&limit=${limit}&barangayId=${barangayId}`;
+      let url = `http://localhost:8080/api/news-announcements?title=${title}&page=${page}&limit=${limit}&barangayId=${barangayId}`;
 
       let response = await axios.get(url);
 
       if (response.data.success === true) {
         setNews(response.data.data);
         setTotalPages(response.data.meta.totalPages);
+        console.log(response.data.data);
+        console.log(barangayId);
       }
     } catch (error: any) {
       console.log(error.response.data);

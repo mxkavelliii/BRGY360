@@ -19,6 +19,7 @@ const ViewNews = () => {
 
           if (response.data.success === true) {
             setData(response.data.data);
+            console.log(response.data.data.image);
           }
         } catch (error: any) {
           console.log(error);
@@ -53,7 +54,9 @@ const ViewNews = () => {
             style={{
               backgroundImage:
                 data.image !== "N/A"
-                  ? `url(http://localhost:8080/api/images/${data.image})`
+                  ? `url(http://localhost:8080/api/images/${encodeURIComponent(
+                      data.image
+                    )})`
                   : "",
             }}
           ></div>
@@ -72,7 +75,9 @@ const ViewNews = () => {
             </div>
           </div>
           <div className="w-full flex items-center justify-start">
-            <p className="text-xs font-normal">{data.contents}</p>
+            <pre className="text-xs font-normal whitespace-pre-wrap break-words font-sans">
+              {data.contents}
+            </pre>
           </div>
         </div>
       </div>

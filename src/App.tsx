@@ -24,6 +24,9 @@ import ViewUser from "./pages/admin/user-management/ViewUser";
 import EditUser from "./pages/admin/user-management/EditUser";
 import AddUser from "./pages/admin/user-management/AddUser";
 import AddAdmin from "./pages/admin/user-management/AddAdmin";
+import AdminNews from "./pages/admin/News";
+import AddNews from "./pages/admin/news/AddNews";
+import EditNews from "./pages/admin/news/EditNews";
 
 function App() {
   return (
@@ -51,6 +54,9 @@ function App() {
               <Route path="/admin/users/view" element={<ViewUser />} />
               <Route path="/admin/users/edit" element={<EditUser />} />
               <Route path="/admin/profile" element={<AdminProfile />} />
+              <Route path="/admin/news" element={<AdminNews />} />
+              <Route path="/admin/news/add" element={<AddNews />} />
+              <Route path="/admin/news/edit" element={<EditNews />} />
             </Routes>
           </UsersProvider>
         </NewsProvider>
