@@ -10,6 +10,7 @@ import { UsersProvider } from "./providers/UsersProvider";
 import { NewsProvider } from "./providers/NewsProvider";
 import { UpdatesProvider } from "./providers/UpdatesProvider";
 import { AchievementsProvider } from "./providers/AchievementsProvider";
+import { BudgetProvider } from "./providers/BudgetProvider";
 
 //users
 import Home from "./pages/user/Home";
@@ -41,6 +42,9 @@ import EditUpdates from "./pages/admin/project-updates/EditUpdates";
 import AdminAchievements from "./pages/admin/Achievements";
 import AddAchievements from "./pages/admin/achievements/AddAchievements";
 import EditAchievements from "./pages/admin/achievements/EditAchievements";
+import AdminBudget from "./pages/admin/Budget";
+import AddBudgets from "./pages/admin/budgets/AddBudgets";
+import EditBudgets from "./pages/admin/budgets/EditBudgets";
 
 function App() {
   return (
@@ -50,76 +54,93 @@ function App() {
           <UsersProvider>
             <UpdatesProvider>
               <AchievementsProvider>
-                <Routes>
-                  <Route path="/" element={<Login />} />
-                  <Route path="/register/user" element={<UserRegister />} />
-                  <Route path="/register/admin" element={<AdminRegister />} />
-                  {/* user */}
-                  <Route path="/user/home" element={<Home />} />
-                  <Route path="/user/profile" element={<UserProfile />} />
-                  <Route path="/user/news" element={<UserNews />} />
-                  <Route path="/user/news/all" element={<AllNews />} />
-                  <Route path="/user/news/view" element={<ViewNews />} />
-                  <Route
-                    path="/user/transparency"
-                    element={<TransparencyDashboard />}
-                  />
-                  <Route
-                    path="/user/transparency/updates"
-                    element={<ProjectUpdates />}
-                  />
-                  <Route
-                    path="/user/transparency/updates/view"
-                    element={<ViewUpdates />}
-                  />
-                  <Route
-                    path="/user/transparency/achievements"
-                    element={<Achievements />}
-                  />
-                  <Route
-                    path="/user/transparency/achievements/view"
-                    element={<ViewAchievements />}
-                  />
-                  {/* admin */}
-                  <Route path="/admin/dashboard" element={<Dashboard />} />
-                  <Route path="/admin/users" element={<Users />} />
-                  <Route path="/admin/users/add/user" element={<AddUser />} />
-                  <Route path="/admin/users/add/admin" element={<AddAdmin />} />
-                  <Route path="/admin/users/view" element={<ViewUser />} />
-                  <Route path="/admin/users/edit" element={<EditUser />} />
-                  <Route path="/admin/profile" element={<AdminProfile />} />
-                  <Route path="/admin/news" element={<AdminNews />} />
-                  <Route path="/admin/news/add" element={<AddNews />} />
-                  <Route path="/admin/news/edit" element={<EditNews />} />
-                  <Route
-                    path="/admin/transparency"
-                    element={<AdminTransparency />}
-                  />
-                  <Route
-                    path="/admin/transparency/updates"
-                    element={<AdminProjectUpdates />}
-                  />
-                  <Route
-                    path="/admin/transparency/updates/add"
-                    element={<AddUpdates />}
-                  />
-                  <Route
-                    path="/admin/transparency/updates/edit"
-                    element={<EditUpdates />}
-                  />
-                  <Route
-                    path="/admin/transparency/achievements"
-                    element={<AdminAchievements />}
-                  />
-                  <Route
-                    path="/admin/transparency/achievements/add"
-                    element={<AddAchievements />}
-                  />
-                  <Route
-                    path="/admin/transparency/achievements/edit"
-                    element={<EditAchievements />}
-                  />
-                </Routes>
+                <BudgetProvider>
+                  <Routes>
+                    <Route path="/" element={<Login />} />
+                    <Route path="/register/user" element={<UserRegister />} />
+                    <Route path="/register/admin" element={<AdminRegister />} />
+                    {/* user */}
+                    <Route path="/user/home" element={<Home />} />
+                    <Route path="/user/profile" element={<UserProfile />} />
+                    <Route path="/user/news" element={<UserNews />} />
+                    <Route path="/user/news/all" element={<AllNews />} />
+                    <Route path="/user/news/view" element={<ViewNews />} />
+                    <Route
+                      path="/user/transparency"
+                      element={<TransparencyDashboard />}
+                    />
+                    <Route
+                      path="/user/transparency/updates"
+                      element={<ProjectUpdates />}
+                    />
+                    <Route
+                      path="/user/transparency/updates/view"
+                      element={<ViewUpdates />}
+                    />
+                    <Route
+                      path="/user/transparency/achievements"
+                      element={<Achievements />}
+                    />
+                    <Route
+                      path="/user/transparency/achievements/view"
+                      element={<ViewAchievements />}
+                    />
+                    {/* admin */}
+                    <Route path="/admin/dashboard" element={<Dashboard />} />
+                    <Route path="/admin/users" element={<Users />} />
+                    <Route path="/admin/users/add/user" element={<AddUser />} />
+                    <Route
+                      path="/admin/users/add/admin"
+                      element={<AddAdmin />}
+                    />
+                    <Route path="/admin/users/view" element={<ViewUser />} />
+                    <Route path="/admin/users/edit" element={<EditUser />} />
+                    <Route path="/admin/profile" element={<AdminProfile />} />
+                    <Route path="/admin/news" element={<AdminNews />} />
+                    <Route path="/admin/news/add" element={<AddNews />} />
+                    <Route path="/admin/news/edit" element={<EditNews />} />
+                    <Route
+                      path="/admin/transparency"
+                      element={<AdminTransparency />}
+                    />
+                    <Route
+                      path="/admin/transparency/updates"
+                      element={<AdminProjectUpdates />}
+                    />
+                    <Route
+                      path="/admin/transparency/updates/add"
+                      element={<AddUpdates />}
+                    />
+                    <Route
+                      path="/admin/transparency/updates/edit"
+                      element={<EditUpdates />}
+                    />
+                    <Route
+                      path="/admin/transparency/achievements"
+                      element={<AdminAchievements />}
+                    />
+                    <Route
+                      path="/admin/transparency/achievements/add"
+                      element={<AddAchievements />}
+                    />
+                    <Route
+                      path="/admin/transparency/achievements/edit"
+                      element={<EditAchievements />}
+                    />
+                    <Route
+                      path="/admin/transparency/budgets"
+                      element={<AdminBudget />}
+                    />
+                    <Route
+                      path="/admin/transparency/budgets/add"
+                      element={<AddBudgets />}
+                    />
+                    <Route
+                      path="/admin/transparency/budgets/edit"
+                      element={<EditBudgets />}
+                    />
+                  </Routes>
+                </BudgetProvider>
               </AchievementsProvider>
             </UpdatesProvider>
           </UsersProvider>
