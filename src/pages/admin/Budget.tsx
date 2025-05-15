@@ -159,8 +159,6 @@ const Budget = () => {
                           <p className="text-xs font-normal">
                             {new Date(budget.date).toLocaleDateString("en-US", {
                               year: "numeric",
-                              month: "long",
-                              day: "numeric",
                             })}
                           </p>
                         </div>

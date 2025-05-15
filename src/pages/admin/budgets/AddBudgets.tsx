@@ -79,6 +79,8 @@ const AddBudgets = () => {
             try {
               let url = "http://localhost:8080/api/budgets";
 
+              console.log(budgetYear);
+
               const formData = new FormData();
               formData.append("title", title);
               formData.append("barangayId", barangayId);

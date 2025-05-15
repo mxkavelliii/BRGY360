@@ -23,6 +23,7 @@ import ProjectUpdates from "./pages/user/ProjectUpdates";
 import ViewUpdates from "./pages/user/updates/ViewUpdates";
 import Achievements from "./pages/user/Achievements";
 import ViewAchievements from "./pages/user/achievements/ViewAchievements";
+import Budgets from "./pages/user/Budgets";
 
 //admin
 import Dashboard from "./pages/admin/Dashboard";
@@ -84,6 +85,10 @@ function App() {
                     <Route
                       path="/user/transparency/achievements/view"
                       element={<ViewAchievements />}
+                    />
+                    <Route
+                      path="/user/transparency/budgets"
+                      element={<Budgets />}
                     />
                     {/* admin */}
                     <Route path="/admin/dashboard" element={<Dashboard />} />

@@ -13,8 +13,8 @@ const UserTransparency = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (location.pathname.includes("/user/transparency/budget")) {
-      setActiveTab("budget");
+    if (location.pathname.includes("/user/transparency/budgets")) {
+      setActiveTab("budgets");
       document.title = "Budget Overview";
     } else if (location.pathname.includes("/user/transparency/updates")) {
       setActiveTab("updates");
@@ -49,7 +49,7 @@ const UserTransparency = () => {
         </div>
       )}
 
-      {activeTab === "budget" ? (
+      {activeTab === "budgets" ? (
         <div className="flex flex-row gap-2 p-3 rounded-xl bg-green-700 text-white cursor-pointer">
           <RiMoneyDollarCircleLine size={16} />
           <p className="hidden lg:block text-xs font-normal">Budget Overview</p>
@@ -57,7 +57,7 @@ const UserTransparency = () => {
       ) : (
         <div
           className="flex flex-row gap-2 p-3 bg-gray-200 rounded-xl cursor-pointer"
-          onClick={() => navigate("/user/transparency/budget")}
+          onClick={() => navigate("/user/transparency/budgets")}
         >
           <RiMoneyDollarCircleLine size={16} />
           <p className="hidden lg:block text-xs font-normal">Budget Overview</p>
