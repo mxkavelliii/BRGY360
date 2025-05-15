@@ -8,17 +8,19 @@ export const BudgetProvider = ({ children }: any) => {
   const [years, setYears] = useState([]);
 
   const getBudgets = async (year: string, barangayId: string) => {
-    try {
-      let url = `http://localhost:8080/api/budgets?barangayId=${barangayId}&date=${year}`;
+    if (barangayId) {
+      try {
+        let url = `http://localhost:8080/api/budgets?barangayId=${barangayId}&date=${year}`;
 
-      let response = await axios.get(url);
+        let response = await axios.get(url);
 
-      if (response.data.success === true) {
-        setYears(response.data.years);
-        setBudgets(response.data.data);
+        if (response.data.success === true) {
+          setYears(response.data.years);
+          setBudgets(response.data.data);
+        }
+      } catch (error: any) {
+        console.log(error.response.data.message);
       }
-    } catch (error: any) {
-      console.log(error.response.data.message);
     }
   };
 
