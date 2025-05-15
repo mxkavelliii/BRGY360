@@ -148,7 +148,10 @@ const UserNavbar = () => {
               ) : null}
             </div>
 
-            <div className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer">
+            <div
+              className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer"
+              onClick={() => navigate("/user/transparency")}
+            >
               {activeRoute === "transparency" ? (
                 <RiFundsBoxFill
                   size={22}

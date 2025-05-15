@@ -28,8 +28,8 @@ const News = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (page > totalPages) {
-      setPage(1);
+    if (page > totalPages && totalPages !== 0) {
+      setPage(page - 1);
     }
   }, [page, totalPages]);
 

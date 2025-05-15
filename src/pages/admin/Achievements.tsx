@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import AdminNavbar from "../../components/AdminNavbar";
-import AdminTransparency from "../../components/AdminTransparency";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUpdates } from "../../providers/UpdatesProvider";
+
+import Modal from "../../components/Modal";
+import DeleteModal from "../../components/DeleteModal";
 import {
   RiCalendarLine,
   RiDeleteBin4Line,
@@ -11,11 +11,12 @@ import {
   RiEmotionUnhappyLine,
   RiSearchLine,
 } from "react-icons/ri";
-import DeleteModal from "../../components/DeleteModal";
-import Modal from "../../components/Modal";
+import AdminTransparency from "../../components/AdminTransparency";
+import AdminNavbar from "../../components/AdminNavbar";
+import { useAchievements } from "../../providers/AchievementsProvider";
 
-const ProjectUpdates = () => {
-  const { updates, getUpdates, totalPages } = useUpdates();
+const Achievements = () => {
+  const { achievements, getAchievements, totalPages } = useAchievements();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const limit = 10;
@@ -25,7 +26,7 @@ const ProjectUpdates = () => {
   const [modal, showModal] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
-  const [selectedUpdate, setSelectedUpdate] = useState("");
+  const [selectedAchievement, setSelectedAchievement] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,10 +35,10 @@ const ProjectUpdates = () => {
     }
   }, [page, totalPages]);
 
-  const deleteUpdates = async (updateId: string) => {
+  const deleteAchievement = async (updateId: string) => {
     if (updateId) {
       try {
-        let url = `http://localhost:8080/api/projects/${updateId}`;
+        let url = `http://localhost:8080/api/accomplishments-achievements/${updateId}`;
 
         let response = await axios.delete(url);
 
@@ -69,7 +70,7 @@ const ProjectUpdates = () => {
 
           if (response.data.success === true) {
             setBarangayId(response.data.data.barangayId);
-            await getUpdates(
+            await getAchievements(
               search,
               response.data.data.barangayId,
               page,
@@ -96,9 +97,11 @@ const ProjectUpdates = () => {
           <AdminTransparency />
           {/* header */}
           <div className="w-full flex flex-col items-start justify-center">
-            <p className="text-sm font-semibold">Project Updates</p>
+            <p className="text-sm font-semibold">
+              Accomplishments and Achievements
+            </p>
             <p className="text-xs font-normal">
-              post and manage project updates on your barangay
+              post and manage barangay accomplishments and achievements
             </p>
           </div>
           {/* search and add */}
@@ -107,7 +110,7 @@ const ProjectUpdates = () => {
               <input
                 type="text"
                 className="outline-none border border-green-700 text-xs font-normal w-full pl-10 pr-3 py-3 rounded-xl"
-                placeholder="search for project updates"
+                placeholder="search for accomplishments or achievements"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -119,22 +122,22 @@ const ProjectUpdates = () => {
             </div>
             <div
               className="flex items-center justify-center cursor-pointer text-xs font-normal text-white bg-green-700 p-3 rounded-xl"
-              onClick={() => navigate("/admin/transparency/updates/add")}
+              onClick={() => navigate("/admin/transparency/achievements/add")}
             >
               Add New
             </div>
           </div>
           {/* count */}
           <div className="w-full flex items-center justify-start">
-            <p className="text-xs font-normal">Count: {updates.length}</p>
+            <p className="text-xs font-normal">Count: {achievements.length}</p>
           </div>
           {/* data */}
           <div className="w-full flex flex-col items-center justify-center gap-4">
-            {updates.length > 0 ? (
-              updates.map((update: any) => (
+            {achievements.length > 0 ? (
+              achievements.map((achievement: any) => (
                 <div
                   className="w-full flex flex-col items-center justify-center p-6 rounded-xl shadow-xl shadow-black/10"
-                  key={update._id}
+                  key={achievement._id}
                 >
                   <div className="w-full flex-col flex lg:flex-row items-center justify-between">
                     <div className="w-full lg:w-2/3 flex flex-row items-center justify-start gap-2">
@@ -142,25 +145,28 @@ const ProjectUpdates = () => {
                         className="w-[60px] h-[60px] rounded-full bg-gray-200 shrink-0 bg-cover bg-center"
                         style={{
                           backgroundImage:
-                            update.image !== "N/A"
+                            achievement.image !== "N/A"
                               ? `url(http://localhost:8080/api/images/${encodeURIComponent(
-                                  update.image
+                                  achievement.image
                                 )})`
                               : "",
                         }}
                       ></div>
                       <div className="flex flex-col items-start justify-center gap-2">
                         <p className="line-clamp-1 text-sm font-normal cursor-pointer">
-                          {update.title}
+                          {achievement.title}
                         </p>
                         <div className="w-full flex flex-row items-center justify-start gap-1">
                           <RiCalendarLine size={14} color="black" />
                           <p className="text-xs font-normal">
-                            {new Date(update.date).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            })}
+                            {new Date(achievement.date).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              }
+                            )}
                           </p>
                         </div>
                       </div>
@@ -169,8 +175,8 @@ const ProjectUpdates = () => {
                       <div
                         className="p-3 rounded-xl bg-green-700 text-white cursor-pointer"
                         onClick={() =>
-                          navigate("/admin/transparency/updates/edit", {
-                            state: update._id,
+                          navigate("/admin/transparency/achievements/edit", {
+                            state: achievement._id,
                           })
                         }
                       >
@@ -180,7 +186,7 @@ const ProjectUpdates = () => {
                         className="p-3 rounded-xl bg-red-700 text-white cursor-pointer"
                         onClick={() => {
                           showDeleteModal(true);
-                          setSelectedUpdate(update._id);
+                          setSelectedAchievement(achievement._id);
                         }}
                       >
                         <RiDeleteBin4Line size={16} />
@@ -226,7 +232,7 @@ const ProjectUpdates = () => {
       </div>
       {deleteModal && (
         <DeleteModal
-          onDelete={() => deleteUpdates(selectedUpdate)}
+          onDelete={() => deleteAchievement(selectedAchievement)}
           onClose={() => showDeleteModal(false)}
         />
       )}
@@ -244,4 +250,4 @@ const ProjectUpdates = () => {
   );
 };
 
-export default ProjectUpdates;
+export default Achievements;

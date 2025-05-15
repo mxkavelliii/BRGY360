@@ -33,7 +33,7 @@ const PostModal = ({
           className="p-3 rounded-xl bg-green-700 text-xs font-normal text-white cursor-pointer"
           onClick={onPost}
         >
-          Post News
+          Post
         </div>
       </div>
     </div>
