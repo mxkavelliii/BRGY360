@@ -123,7 +123,7 @@ const AddUpdates = () => {
           <div className="w-full flex flex-col items-center justify-center gap-4">
             {/* title */}
             <div className="w-full flex flex-col items-start justify-center gap-2">
-              <p className="text-xs font-normal">News Title</p>
+              <p className="text-xs font-normal">Title</p>
               <input
                 type="text"
                 placeholder="header or title"
@@ -134,14 +134,14 @@ const AddUpdates = () => {
             </div>
             {/* content */}
             <div className="w-full flex flex-col items-start justify-center gap-2">
-              <p className="text-xs font-normal">News Content</p>
+              <p className="text-xs font-normal">Content</p>
               <textarea
                 ref={textareaRef}
                 onInput={handleInput}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 className="outline-none w-full text-xs font-normal p-3 rounded-xl border border-green-700 resize-none overflow-hidden"
-                placeholder="add contents for the news or announcement"
+                placeholder="add contents"
               ></textarea>
             </div>
           </div>
@@ -151,7 +151,7 @@ const AddUpdates = () => {
               className="p-3 rounded-xl bg-green-700 text-white text-xs font-normal cursor-pointer"
               onClick={() => showPostModal(true)}
             >
-              Post News
+              Post Updates
             </div>
           </div>
         </div>
