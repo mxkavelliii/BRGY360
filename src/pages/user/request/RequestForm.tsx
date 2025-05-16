@@ -9,9 +9,11 @@ import { PDFDocument } from "pdf-lib";
 import axios from "axios";
 import PostModal from "../../../components/PostModal";
 import Modal from "../../../components/Modal";
+import RequestModal from "../../../components/RequestModal";
 
 const RequestForm = () => {
   const { state } = useLocation();
+  const [requestModal, showRequestModal] = useState(false);
   const navigate = useNavigate();
   const [formType, setFormType] = useState("barangay-clearance");
   const [clearanceData, setClearanceData] = useState({
@@ -46,6 +48,18 @@ const RequestForm = () => {
   const [modal, showModal] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
+
+  const isFormComplete = () => {
+    const dataMap: Record<string, Record<string, string>> = {
+      "barangay-clearance": clearanceData,
+      "barangay-indigency": indigencyData,
+      "certificate-of-residency": residencyData,
+      "first-time-job-seeker": jobseekerData,
+    };
+
+    const selectedData = dataMap[formType];
+    return Object.values(selectedData).every((value) => value.trim() !== "");
+  };
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -460,12 +474,18 @@ const RequestForm = () => {
             </div>
           ) : null}
           <div className="w-full flex flex-row items-center justify-end gap-4">
-            <button
-              className="p-3 rounded-xl bg-green-700 text-xs font-normal text-white"
-              onClick={() => showPostModal(true)}
-            >
-              Submit Request
-            </button>
+            {isFormComplete() ? (
+              <button
+                className="p-3 rounded-xl bg-green-700 text-xs font-normal text-white"
+                onClick={() => showRequestModal(true)}
+              >
+                Submit Request
+              </button>
+            ) : (
+              <button className="p-3 rounded-xl bg-green-700/20 text-xs font-normal text-white">
+                Submit Request
+              </button>
+            )}
             <button
               onClick={generateAndPreviewPdf}
               className="p-3 bg-green-700 text-white rounded-xl text-xs font-normal"
@@ -475,12 +495,13 @@ const RequestForm = () => {
           </div>
         </div>
       </div>
-      {postModal && (
-        <PostModal
+      {requestModal && (
+        <RequestModal
           onClose={() => showPostModal(false)}
           onPost={submitRequest}
         />
       )}
+
       {modal && (
         <Modal
           message={message}

@@ -364,13 +364,12 @@ const FileRequests = () => {
                         request.status === "completed" ? (
                         <div className="flex flex-wrap items-center justify-start gap-2">
                           <div
-                            className="p-3 rounded-xl bg-red-700 text-white cursor-pointer"
+                            className="p-3 rounded-xl bg-green-700 text-white cursor-pointer"
                             onClick={() => {
-                              showDeleteModal(true);
-                              setSelectedRequest(request._id);
+                              generateAndPreviewPdf(request);
                             }}
                           >
-                            <p className="text-xs font-normal">Delete</p>
+                            <p className="text-xs font-normal">Print</p>
                           </div>
                         </div>
                       ) : null}
