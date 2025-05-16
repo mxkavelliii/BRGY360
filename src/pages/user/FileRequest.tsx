@@ -2,6 +2,7 @@ import React from "react";
 import UserNavbar from "../../components/UserNavbar";
 import FileIcon from "../../assets/FileIcon.png";
 import { useNavigate } from "react-router-dom";
+import { RiTimelineView } from "react-icons/ri";
 
 const FileRequest = () => {
   const navigate = useNavigate();
@@ -92,6 +93,15 @@ const FileRequest = () => {
                 First Time Job Seeker
               </p>
             </div>
+          </div>
+          <div className="w-full flex flex-row items-center justify-end gap-2">
+            <button
+              className="flex flex-row gap-2 text-xs font-normal text-white bg-green-700 p-3 rounded-xl"
+              onClick={() => navigate("/user/request/history")}
+            >
+              <RiTimelineView size={16} />
+              <p>File Requests</p>
+            </button>
           </div>
         </div>
       </div>

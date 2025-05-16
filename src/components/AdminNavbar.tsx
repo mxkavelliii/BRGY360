@@ -102,7 +102,10 @@ const AdminNavbar = () => {
               {expand ? <p className="text-sm font-normal">Profile</p> : null}
             </div>
 
-            <div className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer">
+            <div
+              className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer"
+              onClick={() => navigate("/admin/requests")}
+            >
               {activeRoute === "requests" ? (
                 <RiFilePdf2Fill
                   size={22}
