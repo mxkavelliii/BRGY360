@@ -64,12 +64,8 @@ const Budgets = () => {
   }, [year]);
 
   const handleDownload = (file: string) => {
-    const link = document.createElement("a");
-    link.href = `http://localhost:8080/api/files/${file}`;
-    link.download = file; // You can customize the filename
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const url = `http://localhost:8080/api/files/${file}`;
+    window.open(url, "_blank");
   };
 
   return (
