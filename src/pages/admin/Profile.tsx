@@ -243,7 +243,7 @@ const Profile = () => {
                   placeholder="first name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  disabled={edit ? false : true}
+                  disabled={true}
                 />
               </div>
               {/* last name */}
@@ -255,7 +255,7 @@ const Profile = () => {
                   placeholder="last name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  disabled={edit ? false : true}
+                  disabled={true}
                 />
               </div>
               {/* mobile num */}
@@ -282,7 +282,7 @@ const Profile = () => {
                   placeholder="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  disabled={edit ? false : true}
+                  disabled={true}
                 />
               </div>
               {/* street */}
@@ -325,7 +325,7 @@ const Profile = () => {
                   className="w-full text-xs font-normal outline-none border border-green-700 rounded-xl p-3"
                   value={birthDate}
                   onChange={(e) => setBirthDate(e.target.value)}
-                  disabled={edit ? false : true}
+                  disabled={true}
                 />
               </div>
               {/* age */}
@@ -340,7 +340,7 @@ const Profile = () => {
                     const value = e.target.value.replace(/\D/g, "");
                     setAge(value.slice(0, 2));
                   }}
-                  disabled={edit ? false : true}
+                  disabled={true}
                 />
               </div>
               {/* sex */}
