@@ -40,7 +40,7 @@ const FileRequest = () => {
             <div
               className="w-full lg:w-1/4 flex flex-col items-center justify-center gap-4 cursor-pointer"
               onClick={() =>
-                navigate("/user/request/form", { state: "barangay-indicency" })
+                navigate("/user/request/form", { state: "barangay-indigency" })
               }
             >
               <div className="w-[220px] h-[220px] shrink-0 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center">

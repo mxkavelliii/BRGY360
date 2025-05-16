@@ -21,6 +21,24 @@ const RequestForm = () => {
     birthdate: "",
     purpose: "",
   });
+  const [indigencyData, setIndigencyData] = useState({
+    fullName: "",
+    address: "",
+    purpose: "",
+  });
+  const [residencyData, setResidencyData] = useState({
+    fullName: "",
+    address: "",
+    purpose: "",
+  });
+  const [jobseekerData, setJobseekerData] = useState({
+    honorifics: "",
+    fullName: "",
+    address: "",
+    schoolName: "",
+    purpose: "",
+  });
+
   const [requestedBy, setRequestedBy] = useState("");
   const [barangayId, setBarangayId] = useState("");
 
@@ -46,31 +64,58 @@ const RequestForm = () => {
     }
   }, []);
 
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
   const generateAndPreviewPdf = async () => {
-    // Fetch your PDF template
-    const res = await fetch("/BARANGAY CLEARANCE.pdf");
+    let res;
+
+    if (formType === "barangay-clearance") {
+      res = await fetch("/BARANGAY CLEARANCE.pdf");
+    } else if (formType === "barangay-indigency") {
+      res = await fetch("/BARANGAY INDIGENCY.pdf");
+    } else if (formType === "certificate-of-residency") {
+      res = await fetch("/CERTIFICATE OF RESIDENCY.pdf");
+    } else if (formType === "first-time-job-seeker") {
+      res = await fetch("/FIRST TIME JOB SEEKER.pdf");
+    }
+
+    if (!res) {
+      console.error("Invalid form type:", formType);
+      return;
+    }
+
     const arrayBuffer = await res.arrayBuffer();
 
     // Load the template
     const pdfDoc = await PDFDocument.load(arrayBuffer);
     const form = pdfDoc.getForm();
 
-    // Fill in form fields
-    form.getTextField("fullName")?.setText(clearanceData.fullName);
-    form.getTextField("address")?.setText(clearanceData.address);
-    form.getTextField("purok")?.setText(clearanceData.purok);
-    form.getTextField("birthdate")?.setText(clearanceData.birthdate);
-    form.getTextField("purpose")?.setText(clearanceData.purpose);
+    // Fill in form fields based on form type
+    if (formType === "barangay-clearance") {
+      form.getTextField("fullName")?.setText(clearanceData.fullName);
+      form.getTextField("address")?.setText(clearanceData.address);
+      form.getTextField("purok")?.setText(clearanceData.purok);
+      form.getTextField("birthdate")?.setText(clearanceData.birthdate);
+      form.getTextField("purpose")?.setText(clearanceData.purpose);
+    } else if (formType === "barangay-indigency") {
+      form.getTextField("fullName")?.setText(indigencyData.fullName);
+      form.getTextField("address")?.setText(indigencyData.address);
+      form.getTextField("purpose")?.setText(indigencyData.purpose);
+    } else if (formType === "certificate-of-residency") {
+      form.getTextField("fullName")?.setText(residencyData.fullName);
+      form.getTextField("address")?.setText(residencyData.address);
+      form.getTextField("purpose")?.setText(residencyData.purpose);
+    } else if (formType === "first-time-job-seeker") {
+      form.getTextField("fullName")?.setText(jobseekerData.fullName);
+      form.getTextField("address")?.setText(jobseekerData.address);
+      form.getTextField("honorifics")?.setText(jobseekerData.honorifics);
+      form.getTextField("schoolName")?.setText(jobseekerData.schoolName);
+      form.getTextField("purpose")?.setText(jobseekerData.purpose); // <- This may be a mistake (see below)
+    }
 
-    // Make fields non-editable
+    // Flatten to make fields non-editable
     form.flatten();
 
-    // Save the filled PDF
+    // Save and preview
     const pdfBytes = await pdfDoc.save();
-
-    // Create a Blob and open in new tab
     const blob = new Blob([pdfBytes], { type: "application/pdf" });
     const blobUrl = URL.createObjectURL(blob);
     window.open(blobUrl, "_blank");
@@ -83,7 +128,16 @@ const RequestForm = () => {
       let response = await axios.post(url, {
         requestedDocumentType: formType,
         requestedBy: requestedBy,
-        data: formType === "barangay-clearance" ? clearanceData : "",
+        data:
+          formType === "barangay-clearance"
+            ? clearanceData
+            : formType === "barangay-indigency"
+            ? indigencyData
+            : formType === "certificate-of-residency"
+            ? residencyData
+            : formType === "first-time-job-seeker"
+            ? jobseekerData
+            : "",
         barangayId: barangayId,
       });
 
@@ -133,60 +187,14 @@ const RequestForm = () => {
             </select>
           </div>
           {/* inputs */}
-          <div className="w-full flex flex-col items-center justify-center gap-4">
-            <div className="w-full flex flex-col items-start justify-center gap-2">
-              <p className="text-xs font-normal">Full Name</p>
-              <input
-                type="text"
-                name="fullName"
-                value={clearanceData.fullName}
-                onChange={(e) =>
-                  setClearanceData({
-                    ...clearanceData,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-                className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
-                placeholder="full name"
-              />
-            </div>
-            <div className="w-full flex flex-col items-start justify-center gap-2">
-              <p className="text-xs font-normal">Address</p>
-              <input
-                type="text"
-                name="address"
-                value={clearanceData.address}
-                onChange={(e) =>
-                  setClearanceData({
-                    ...clearanceData,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-                className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
-                placeholder="address"
-              />
-            </div>
-            <div className="w-full flex flex-col items-start justify-center gap-2">
-              <p className="text-xs font-normal">Purok</p>
-              <input
-                type="text"
-                name="purok"
-                value={clearanceData.purok}
-                onChange={(e) =>
-                  setClearanceData({
-                    ...clearanceData,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-                className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
-                placeholder="purok"
-              />
+          {formType === "barangay-clearance" ? (
+            <div className="w-full flex flex-col items-center justify-center gap-4">
               <div className="w-full flex flex-col items-start justify-center gap-2">
-                <p className="text-xs font-normal">Address</p>
+                <p className="text-xs font-normal">Full Name</p>
                 <input
-                  type="date"
-                  name="birthdate"
-                  value={clearanceData.birthdate}
+                  type="text"
+                  name="fullName"
+                  value={clearanceData.fullName}
                   onChange={(e) =>
                     setClearanceData({
                       ...clearanceData,
@@ -194,18 +202,118 @@ const RequestForm = () => {
                     })
                   }
                   className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
-                  placeholder="birth day"
+                  placeholder="full name"
                 />
               </div>
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">Address</p>
+                <input
+                  type="text"
+                  name="address"
+                  value={clearanceData.address}
+                  onChange={(e) =>
+                    setClearanceData({
+                      ...clearanceData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                  className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                  placeholder="address"
+                />
+              </div>
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">Purok</p>
+                <input
+                  type="text"
+                  name="purok"
+                  value={clearanceData.purok}
+                  onChange={(e) =>
+                    setClearanceData({
+                      ...clearanceData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                  className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                  placeholder="purok"
+                />
+                <div className="w-full flex flex-col items-start justify-center gap-2">
+                  <p className="text-xs font-normal">Address</p>
+                  <input
+                    type="date"
+                    name="birthdate"
+                    value={clearanceData.birthdate}
+                    onChange={(e) =>
+                      setClearanceData({
+                        ...clearanceData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                    className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                    placeholder="birth day"
+                  />
+                </div>
+                <div className="w-full flex flex-col items-start justify-center gap-2">
+                  <p className="text-xs font-normal">Purpose</p>
+                  <input
+                    type="text"
+                    name="purpose"
+                    value={clearanceData.purpose}
+                    onChange={(e) =>
+                      setClearanceData({
+                        ...clearanceData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                    className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                    placeholder="purpose"
+                  />
+                </div>
+              </div>
+            </div>
+          ) : formType === "barangay-indigency" ? (
+            <div className="w-full flex flex-col items-center justify-center gap-4">
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">Full Name</p>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={indigencyData.fullName}
+                  onChange={(e) =>
+                    setIndigencyData({
+                      ...indigencyData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                  className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                  placeholder="full name"
+                />
+              </div>
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">Address</p>
+                <input
+                  type="text"
+                  name="address"
+                  value={indigencyData.address}
+                  onChange={(e) =>
+                    setIndigencyData({
+                      ...indigencyData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                  className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                  placeholder="address"
+                />
+              </div>
+
               <div className="w-full flex flex-col items-start justify-center gap-2">
                 <p className="text-xs font-normal">Purpose</p>
                 <input
                   type="text"
                   name="purpose"
-                  value={clearanceData.purpose}
+                  value={indigencyData.purpose}
                   onChange={(e) =>
-                    setClearanceData({
-                      ...clearanceData,
+                    setIndigencyData({
+                      ...indigencyData,
                       [e.target.name]: e.target.value,
                     })
                   }
@@ -214,7 +322,143 @@ const RequestForm = () => {
                 />
               </div>
             </div>
-          </div>
+          ) : formType === "certificate-of-residency" ? (
+            <div className="w-full flex flex-col items-center justify-center gap-4">
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">Full Name</p>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={residencyData.fullName}
+                  onChange={(e) =>
+                    setResidencyData({
+                      ...residencyData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                  className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                  placeholder="full name"
+                />
+              </div>
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">Address</p>
+                <input
+                  type="text"
+                  name="address"
+                  value={residencyData.address}
+                  onChange={(e) =>
+                    setResidencyData({
+                      ...residencyData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                  className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                  placeholder="address"
+                />
+              </div>
+
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">Purpose</p>
+                <input
+                  type="text"
+                  name="purpose"
+                  value={residencyData.purpose}
+                  onChange={(e) =>
+                    setResidencyData({
+                      ...residencyData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                  className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                  placeholder="purpose"
+                />
+              </div>
+            </div>
+          ) : formType === "first-time-job-seeker" ? (
+            <div className="w-full flex flex-col items-center justify-center gap-4">
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">Honorifics</p>
+                <input
+                  type="text"
+                  name="honorifics"
+                  value={jobseekerData.honorifics}
+                  onChange={(e) =>
+                    setJobseekerData({
+                      ...jobseekerData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                  className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                  placeholder="honorifics"
+                />
+              </div>
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">Full Name</p>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={jobseekerData.fullName}
+                  onChange={(e) =>
+                    setJobseekerData({
+                      ...jobseekerData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                  className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                  placeholder="full name"
+                />
+              </div>
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">Address</p>
+                <input
+                  type="text"
+                  name="address"
+                  value={jobseekerData.address}
+                  onChange={(e) =>
+                    setJobseekerData({
+                      ...jobseekerData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                  className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                  placeholder="address"
+                />
+              </div>
+              <div className="w-full flex flex-col items-start justify-center gap-2">
+                <p className="text-xs font-normal">School Name</p>
+                <input
+                  type="text"
+                  name="schoolName"
+                  value={jobseekerData.schoolName}
+                  onChange={(e) =>
+                    setJobseekerData({
+                      ...jobseekerData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                  className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                  placeholder="school name"
+                />
+
+                <div className="w-full flex flex-col items-start justify-center gap-2">
+                  <p className="text-xs font-normal">Purpose</p>
+                  <input
+                    type="text"
+                    name="purpose"
+                    value={jobseekerData.purpose}
+                    onChange={(e) =>
+                      setJobseekerData({
+                        ...jobseekerData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                    className="w-full outline-none border border-green-700 text-xs font-normal p-3 rounded-xl"
+                    placeholder="purpose"
+                  />
+                </div>
+              </div>
+            </div>
+          ) : null}
           <div className="w-full flex flex-row items-center justify-end gap-4">
             <button
               className="p-3 rounded-xl bg-green-700 text-xs font-normal text-white"
