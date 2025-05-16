@@ -38,9 +38,9 @@ const UserNavbar = () => {
     } else if (location.pathname.includes("/user/profile")) {
       setActiveRoute("profile");
       document.title = "Profile";
-    } else if (location.pathname.includes("/user/requests")) {
-      setActiveRoute("requests");
-      document.title = "File Requests";
+    } else if (location.pathname.includes("/user/request")) {
+      setActiveRoute("request");
+      document.title = "File Request";
     } else if (location.pathname.includes("/user/news")) {
       setActiveRoute("news");
       document.title = "News and Announcements";
@@ -107,8 +107,11 @@ const UserNavbar = () => {
               {expand ? <p className="text-sm font-normal">Profile</p> : null}
             </div>
 
-            <div className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer">
-              {activeRoute === "requests" ? (
+            <div
+              className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer"
+              onClick={() => navigate("/user/request")}
+            >
+              {activeRoute === "request" ? (
                 <RiFilePdf2Fill
                   size={22}
                   color="white"

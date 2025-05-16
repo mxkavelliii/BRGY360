@@ -24,6 +24,8 @@ import ViewUpdates from "./pages/user/updates/ViewUpdates";
 import Achievements from "./pages/user/Achievements";
 import ViewAchievements from "./pages/user/achievements/ViewAchievements";
 import Budgets from "./pages/user/Budgets";
+import FileRequest from "./pages/user/FileRequest";
+import RequestForm from "./pages/user/request/RequestForm";
 
 //admin
 import Dashboard from "./pages/admin/Dashboard";
@@ -89,6 +91,11 @@ function App() {
                     <Route
                       path="/user/transparency/budgets"
                       element={<Budgets />}
+                    />
+                    <Route path="/user/request" element={<FileRequest />} />
+                    <Route
+                      path="/user/request/form"
+                      element={<RequestForm />}
                     />
                     {/* admin */}
                     <Route path="/admin/dashboard" element={<Dashboard />} />

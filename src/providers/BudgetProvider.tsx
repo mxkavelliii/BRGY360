@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { mergeConfig } from "axios";
 import React, { createContext, useContext, useState } from "react";
 
 const BudgetContext = createContext<any>(null);
@@ -15,7 +15,11 @@ export const BudgetProvider = ({ children }: any) => {
         let response = await axios.get(url);
 
         if (response.data.success === true) {
-          setYears(response.data.years);
+          if (response.data.data.length > 0) {
+            setYears(response.data.years);
+          } else {
+            setYears([]);
+          }
           setBudgets(response.data.data);
         }
       } catch (error: any) {

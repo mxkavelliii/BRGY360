@@ -51,6 +51,7 @@ const Budget = () => {
           setError(false);
           showModal(true);
           setMessage(response.data.message);
+          setYear("");
           getData();
         }
       } catch (error: any) {
