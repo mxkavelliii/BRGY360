@@ -215,7 +215,7 @@ const RequestForm = () => {
               </div>
             </div>
           </div>
-          <div className="w-full flex flex-row items-center justify-center gap-4">
+          <div className="w-full flex flex-row items-center justify-end gap-4">
             <button
               className="p-3 rounded-xl bg-green-700 text-xs font-normal text-white"
               onClick={() => showPostModal(true)}
@@ -226,7 +226,7 @@ const RequestForm = () => {
               onClick={generateAndPreviewPdf}
               className="p-3 bg-green-700 text-white rounded-xl text-xs font-normal"
             >
-              Generate & Preview PDF
+              View File
             </button>
           </div>
         </div>
