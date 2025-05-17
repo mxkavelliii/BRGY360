@@ -12,11 +12,23 @@ export const AuthProvider = ({ children }: any) => {
     if (user) {
       const currentUser = JSON.parse(user);
 
-      if (currentUser) {
-        if (currentUser.role === "admin") {
-          navigate("/admin/dashboard");
-        } else if (currentUser.role === "user") {
-          navigate("/user/home");
+      const path = location.pathname;
+
+      if (currentUser.role === "admin") {
+        if (
+          path.includes("/user/") ||
+          path === "/" ||
+          path.includes("/register")
+        ) {
+          navigate("/admin/dashboard", { replace: true });
+        }
+      } else if (currentUser.role === "user") {
+        if (
+          path.includes("/admin/") ||
+          path === "/" ||
+          path.includes("/register")
+        ) {
+          navigate("/user/home", { replace: true });
         }
       }
     } else {
@@ -27,7 +39,7 @@ export const AuthProvider = ({ children }: any) => {
   useEffect(() => {
     getCredentials();
     //   onLogout();
-  }, []);
+  }, [location.pathname]);
 
   const onLogout = () => {
     localStorage.removeItem("user");
