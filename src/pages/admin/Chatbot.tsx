@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AdminNavbar from "../../components/AdminNavbar";
 import { useChats } from "../../providers/ChatsProvider";
 import { RiSendPlaneFill } from "react-icons/ri";
@@ -8,10 +8,17 @@ const Chatbot = () => {
   const { adminChats, getAdminChats } = useChats();
   const [selectedUser, setSelectedUser] = useState("");
   const [message, setMessage] = useState("");
+  const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   const selectedChat = adminChats.find(
     (chat: any) => chat.user._id === selectedUser
   );
+
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [selectedChat]);
 
   const getData = async () => {
     const user = localStorage.getItem("user");
@@ -131,6 +138,7 @@ const Chatbot = () => {
                       <p className="text-sm ">{msg.message}</p>
                     </div>
                   ))}
+                  <div ref={chatEndRef} />
                 </div>
 
                 {/* input */}

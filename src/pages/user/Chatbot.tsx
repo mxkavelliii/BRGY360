@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RiCloseLine, RiSendPlaneFill } from "react-icons/ri";
 import { useChats } from "../../providers/ChatsProvider";
 import axios from "axios";
@@ -7,6 +7,13 @@ const Chatbot = ({ onClose }: { onClose: () => void }) => {
   const { userChats, getUserChats } = useChats();
   const [userId, setUserId] = useState("");
   const [message, setMessage] = useState("");
+  const chatEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [userChats]);
 
   useEffect(() => {
     getData();
@@ -76,6 +83,7 @@ const Chatbot = ({ onClose }: { onClose: () => void }) => {
             <p className="text-xs font-normal">{chat.message}</p>
           </div>
         ))}
+        <div ref={chatEndRef} />
       </div>
       <div className="w-full flex flex-row items-center justify-between gap-4 p-6 bg-white">
         <input
