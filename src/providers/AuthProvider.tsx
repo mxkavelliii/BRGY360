@@ -32,14 +32,18 @@ export const AuthProvider = ({ children }: any) => {
         }
       }
     } else {
-      navigate("/");
+      const path = location.pathname;
+
+      if (!path.includes("/register") && path !== "/") {
+        navigate("/", { replace: true });
+      }
     }
   };
 
   useEffect(() => {
     getCredentials();
     //   onLogout();
-  }, [location.pathname]);
+  }, []);
 
   const onLogout = () => {
     localStorage.removeItem("user");
