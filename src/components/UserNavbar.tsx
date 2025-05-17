@@ -23,6 +23,7 @@ import {
   RiUser4Line,
 } from "react-icons/ri";
 import Logo from "../assets/Logo.png";
+import Chatbot from "../pages/user/Chatbot";
 
 const UserNavbar = () => {
   const [expand, setExpand] = useState(false);
@@ -30,6 +31,7 @@ const UserNavbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeRoute, setActiveRoute] = useState("dashboard");
+  const [chatBot, showChatBot] = useState(false);
 
   useEffect(() => {
     if (location.pathname.includes("/user/home")) {
@@ -187,6 +189,7 @@ const UserNavbar = () => {
                   size={22}
                   color="white"
                   className="cursor-pointer"
+                  onClick={() => showChatBot(true)}
                 />
               )}
               {expand ? <p className="text-sm font-normal">Chatbot</p> : null}
@@ -217,6 +220,7 @@ const UserNavbar = () => {
           )}
         </div>
       </div>
+      {chatBot && <Chatbot onClose={() => showChatBot(false)} />}
     </>
   );
 };

@@ -192,7 +192,10 @@ const AdminNavbar = () => {
           </div>
 
           <div className="w-auto lg:w-full flex flex-row lg:flex-col items-center justify-center gap-4 lg:gap-6">
-            <div className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer">
+            <div
+              className="w-full flex flex-row items-center justify-start gap-2 cursor-pointer"
+              onClick={() => navigate("/admin/chatbot")}
+            >
               {activeRoute === "chatbot" ? (
                 <RiChat4Fill
                   size={22}
